@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<div class="form_div">
+    <form name='models_to_initiate_form' id='models_to_initiate_form' action='' method='post'>
+        {% csrf_token %}
+
+        <select class="form-select start_stop" name="start_stop">
+            <option value="start">start</option>
+            <option value="stop">stop</option>
+        </select>
+
+        <select class="form-select models_to_initiate" name="models_to_initiate">
+            {% for i_opt in models_to_initiate %}
+                    <option value={{i_opt.id}}>{{i_opt.name_nd_quant}}</option>
+            {% endfor %}
+        </select>
+
+        <input type="submit" value="post">
+    </form>
+</div>
+
+<script>
+    let msgbox = document.querySelector('.main_container');
+            msgbox.scrollTop = msgbox.scrollHeight;
+</script>
+{% endblock %}

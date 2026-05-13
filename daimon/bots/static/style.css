@@ -1,0 +1,398 @@
+:root {
+    --bg-dark: oklch(0.1 0.075 255);
+    --bg: oklch(0.15 0.075 255);
+    --bg-light: oklch(0.2 0.075 255);
+    --text: oklch(0.96 0.1 255);
+    --text-muted: oklch(0.76 0.1 255);
+    --highlight: oklch(0.5 0.15 255);
+    --border: oklch(0.4 0.15 255);
+    --border-muted: oklch(0.3 0.15 255);
+    --primary: oklch(0.76 0.15 255);
+    --secondary: oklch(0.76 0.15 75);
+    --danger: oklch(0.7 0.15 30);
+    --warning: oklch(0.7 0.15 100);
+    --success: oklch(0.7 0.15 160);
+    --info: oklch(0.7 0.15 260);
+
+
+    --lg-bg-dark: oklch(0.92 0.075 255);
+    --lg-bg: oklch(0.96 0.075 255);
+    --lg-bg-light: oklch(1 0.075 255);
+    --lg-text: oklch(0.15 0.15 255);
+    --lg-text-muted: oklch(0.4 0.15 255);
+    --lg-highlight: oklch(1 0.15 255);
+    --lg-border: oklch(0.6 0.15 255);
+    --lg-border-muted: oklch(0.7 0.15 255);
+    --lg-primary: oklch(0.4 0.15 255);
+    --lg-secondary: oklch(0.4 0.15 75);
+    --lg-danger: oklch(0.5 0.15 30);
+    --lg-warning: oklch(0.5 0.15 100);
+    --lg-success: oklch(0.5 0.15 160);
+    --lg-info: oklch(0.5 0.15 260);
+}
+
+body {
+    font-family: 'Lucida Consosle', monospace;
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    min-height: 65rem;
+}
+
+nav a {
+    font-family: 'Lucida Consosle', monospace !important;
+    color: var(--text) !important;
+}
+
+nav.navbar-expand-md {
+    border-bottom-style: solid;
+    border-bottom-width: thin;
+    border-bottom-color: var(--border-muted);
+    background: linear-gradient(0deg, var(--bg) 0%, var(--bg-dark) 100%) !important;
+}
+
+nav.navbar-dark {
+    border-top-style: solid;
+    border-top-width: thin;
+    border-top-color: var(--bg-light);
+    background-color: var(--bg-dark) !important;
+}
+
+nav .dropdown-menu.show {
+    background: linear-gradient(0deg, var(--bg) 0%, var(--bg-dark) 100%) !important;
+    border-style: solid;
+    border-width: thin;
+    border-color: var(--border-muted);
+    border-radius: 5px;
+}
+
+nav .dropdown-menu.show a:hover {
+    background: linear-gradient(0deg, var(--bg-light) 0%, var(--bg) 100%) !important;
+}
+
+.btn-outline-success {
+    background: linear-gradient(0deg, var(--bg) 0%, var(--bg-light) 100%) !important;
+    border-style: solid;
+    border-width: thin;
+    border-color: var(--border);
+    border-radius: 5px;
+    color: var(--text);
+}
+
+.btn-outline-success:hover {
+    background: linear-gradient(0deg, var(--bg) 0%, var(--bg-light) 100%) !important;
+    border-style: solid;
+    border-width: medium;
+    border-color: var(--highlight);
+    border-radius: 5px;
+    color: var(--text);
+}
+
+.form_div form {
+    max-width: fit-content !important;
+}
+
+.form_div {
+    width: 100%;
+}
+
+
+form input[type='submit'] {
+    color: var(--text);
+    background: linear-gradient(0deg, var(--bg) 0%, var(--bg-light) 100%) !important;
+    border: 3px solid var(--highlight);
+    padding: 0.5rem 1.5rem;
+    border-radius: 3px;
+    font-weight: bold;
+}
+
+form input[type='submit']:hover {
+    color: var(--text-muted);
+    background-color: var(--bg-light);
+    border: 3px solid var(--border);
+    padding: 0.5rem 1.5rem;
+    border-radius: 3px;
+    font-weight: bold;
+}
+
+form input[type='search'] {
+    color: var(--text-muted);
+    background-color: var(--bg-light);
+    background-clip: padding-box;
+    border: 1px solid var(--border);
+    padding: 0.5rem;
+    border-radius: 6px;
+}
+
+form input[type='search']:hover {
+    color: var(--text);
+    background-color: var(--bg-light);
+    background-clip: padding-box;
+    border: 1px solid var(--highlight);
+    padding: 0.5rem;
+    border-radius: 6px;
+}
+
+form input[type='text'] {
+    color: var(--text-muted);
+    background-color: var(--bg-light);
+    background-clip: padding-box;
+    border: 1px solid var(--border);
+    padding: 0.5rem;
+    border-radius: 6px;
+    margin: 1rem 0;
+}
+
+form input[type='text']:hover {
+    color: var(--text);
+    background-color: var(--bg-light);
+    background-clip: padding-box;
+    border: 1px solid var(--highlight);
+    padding: 0.5rem;
+    border-radius: 6px;
+    margin: 1rem 0;
+}
+
+form input[type='number'] {
+    color: var(--text-muted);
+    background-color: var(--bg-light);
+    background-clip: padding-box;
+    border: 1px solid var(--border);
+    padding: 0.5rem;
+    border-radius: 6px;
+    margin: 1rem 0;
+}
+
+form input[type='number']:hover {
+    color: var(--text);
+    background-color: var(--bg-light);
+    background-clip: padding-box;
+    border: 1px solid var(--highlight);
+    padding: 0.5rem;
+    border-radius: 6px;
+    margin: 1rem 0;
+}
+
+form select {
+    color: var(--text-muted);
+    background-color: var(--bg-light);
+    background-clip: padding-box;
+    border: 1px solid var(--border);
+    padding: 0.5rem;
+    border-radius: 6px;
+}
+
+form select:hover {
+    color: var(--text);
+    background-color: var(--bg-light);
+    background-clip: padding-box;
+    border: 1px solid var(--highlight);
+    padding: 0.5rem;
+    border-radius: 6px;
+}
+
+.footer_nav {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 1rem;
+}
+
+form p {
+    display: flex;
+    flex-flow: column;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    color: var(--highlight);
+}
+
+.parent_container {
+    padding: 1rem 0;
+    display: flex;
+    min-height: inherit;
+}
+
+.sidebar_container {
+    width: 30%;
+}
+
+.main_container {
+    width: 70%;
+    max-height: 65rem;
+    overflow-y: scroll;
+    overflow-x: clip;
+}
+
+.model_chats a {
+    text-decoration: none !important;
+    color: var(--text);
+}
+
+.model_chat {
+    background: linear-gradient(0deg, var(--bg) 0%, var(--bg-dark) 100%);
+    border-bottom: solid 1px var(--border-muted);
+    padding-left: 1rem;
+    padding-bottom: 2rem;
+    padding-top: 1rem;
+}
+
+#summary_form textarea {
+    min-height: 60rem;
+}
+
+#summary_form {
+    min-width: 100%;
+    min-height: 25rem;
+}
+
+.active_chat {
+    background-color: var(--bg-light) !important;
+    border-bottom: solid 2px var(--border);
+    padding-left: 1rem;
+    padding-bottom: 2rem;
+    padding-top: 1rem;
+    display: flex;
+  flex-flow: row-reverse;
+  justify-content: space-between;
+}
+
+.model_chats h4 {
+    text-decoration: none !important;
+    color: var(--text);
+    font-weight: bold;
+}
+
+.model_chats h5 {
+    text-decoration: none !important;
+    color: var(--text);
+}
+
+.model_chats h6 {
+    text-decoration: none !important;
+    color: var(--text-muted);
+    font-size: small;
+}
+
+.chat_messages .user {
+    background-color: var(--bg-dark);
+    border: solid 1px var(--border-muted);
+    border-radius: 5px;
+    padding: 1rem 1rem 0rem 1rem;
+    text-align: end;
+}
+
+.chat_messages .model {
+    background-color: var(--bg-light);
+    border: solid 1px var(--border);
+    border-radius: 5px;
+    padding: 1rem 1rem 0rem 1rem;
+}
+.chat_messages {
+    margin: 1rem 0;
+}
+
+.chat_messages p {
+    color: var(--text);
+}
+
+.chat_messages h6 {
+    color: var(--text-muted);
+    font-size: small;
+}
+
+.chat_messages h5 {
+    color: var(--text-muted);
+    font-size: small;
+    font-weight: bold;
+}
+
+.metadata {
+    display: flex;
+  justify-content: space-between;
+  font-size: small;
+  color: var(--text-muted);
+}
+
+.metadata .tokens {
+    display: flex;
+}
+
+.metadata .tokens h6 {
+    margin: 0 0.5rem;
+}
+
+#chat_messages_form { 
+    display: flex;
+    min-width: 100%;
+    flex-wrap: wrap;
+}
+
+#chat_messages_form p { 
+    width: 75%;
+    margin: 0;
+}
+
+.chat_submit {
+    display: flex;
+    flex-flow: column;
+    width: 25%;
+    justify-content: space-between;
+}
+
+
+form textarea {
+    color: var(--text-muted);
+    background-color: var(--bg-light);
+    background-clip: padding-box;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+}
+
+form textarea {
+    color: var(--text);
+    background-color: var(--bg-light);
+    background-clip: padding-box;
+    border: 1px solid var(--highlight);
+    border-radius: 6px;
+}
+
+
+@media screen and (max-width: 600px) {
+
+    .parent_container {
+    padding: 1rem 0;
+    display: flex;
+    flex-flow: wrap-reverse;
+    }
+
+    .sidebar_container {
+        width: 100%;
+    }
+
+    .main_container {
+    width: 100%;
+    overflow-y: scroll;
+    overflow-x: clip;
+    }
+
+    #chat_messages_form p { 
+    width: 100%;
+    margin: 0;
+    }
+
+    .chat_submit {
+        display: flex;
+        flex-flow: column;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    #summary_form textarea {
+    min-height: 25rem;
+    }
+
+}

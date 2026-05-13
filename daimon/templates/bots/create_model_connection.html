@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="form_div" >
+    <form name='model_connection_form' id='model_connection_form' action='' method='post'>
+        {% csrf_token %}
+
+        {{model_connection_form.as_p|safe}}
+
+        <input type="submit" value="post">
+
+    </form>
+</div>
+{% endblock %}

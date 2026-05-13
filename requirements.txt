@@ -1,0 +1,12 @@
+numpy
+pandas
+django
+llama-cpp-python
+langchain 
+langchain-community
+langchain_openai
+langchain_core
+pypdf
+selenium
+quicksand
+bs4
