@@ -14,7 +14,7 @@ Daemon is a privacy-first reasoning engine designed for executives and professio
 
 ------------------------------
 
-![Daemon is a privacy-first reasoning engine designed for executives and professionals that refuse to trade their private information for innovation](https://github.com/axiomatic7group/daemon/raw/main/assets/daemon_hero.png)
+![Daemon is a privacy-first reasoning engine designed for executives and professionals that refuse to trade their private information for innovation](https://github.com/axiomatic7group/daemon/raw/main/assets/daemon_img_hero.png)
 
 ------------------------------
 # The Value Proposition for Innovative Executives
