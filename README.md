@@ -13,6 +13,10 @@
 Daemon is a privacy-first reasoning engine designed for executives and professionals that refuse to trade their private information for innovation. Built on the principle of data sovereignty, Daemon allows your innovative executives to harness advanced AI capabilities, from automated strategy summarization to complex task reasoning, entirely within your own secure infrastructure.
 
 ------------------------------
+
+![Daemon is a privacy-first reasoning engine designed for executives and professionals that refuse to trade their private information for innovation](https://github.com/axiomatic7group/daemon/raw/main/assets/daemon_hero.png)
+
+------------------------------
 # The Value Proposition for Innovative Executives
 
 ### Uncompromising Data Sovereignty
