@@ -1,11 +1,17 @@
 # **🔥 Daemon: Your Private AI Chat Companion**
 ### *Part of the **Axiom Suite** – The Governance, Semantic, Action & Reasoning Layer for Digital Labor*
 
+![Daemon](https://img.shields.io/badge/Daemon-Project%20Management-blue)
+![License](https://img.shields.io/badge/License-MIT-green)
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
+![Django](https://img.shields.io/badge/Django-4.2%2B-green)
+
+
 ![Daemon is a privacy-first reasoning engine designed for executives and professionals that refuse to trade their private information for innovation](https://github.com/axiomatic7group/daemon/raw/main/assets/daemon_img_hero.png)
 
 ---
 
-## **🚀 What is Daemon?**
+## **What is Daemon?**
 **Daemon** is a **secure, private AI chat assistant** designed to act as your **"second brain"**—organizing, reasoning, and executing tasks while maintaining **organizational memory** and **strict privacy controls**. Built as part of the **Axiom Suite**, Daemon integrates seamlessly with your workflows, ensuring AI interactions are **auditable, secure, and efficient**.
 
 🔹 **Why "Daemon"?**
@@ -13,19 +19,19 @@ In computing, a daemon is a background process that runs continuously—just lik
 
 ---
 
-## **✨ Key Features**
+## **Key Features**
 
-### **🔒 Private & Secure**
+### **Private & Secure**
 - **No Data Leaks**: All conversations stay **local or private**—no external API calls unless explicitly allowed.
 - **User-Level Attribution**: Every action is tied to a user’s security clearance (ABAC), preventing **"Shadow AI"** risks.
 - **Fail-to-Human Escalation**: If Daemon hits an edge case, it **hands off to a human**—ensuring **0% hallucinations in critical paths**.
 
-### **🧠 Smart Reasoning**
+### **Smart Reasoning**
 - **Context-Aware**: Remembers past interactions (organizational memory) to provide **consistent, intelligent responses**.
 - **Task Automation**: Helps break down complex tasks into **actionable steps** (e.g., project planning, knowledge retrieval).
 - **Personality Customization**: Adjust AI behavior (e.g., **planning mode** for project management, **summarization mode** for notes).
 
-### **🔄 Seamless Integration**
+### **Seamless Integration**
 - Works alongside **Synapse (Governance Layer)** and **Cadence (Action Layer)** for **end-to-end automation**.
 - **Modular & Extensible**: Add new tools (e.g., file search, API calls) without rewriting logic.
 
@@ -37,13 +43,17 @@ In computing, a daemon is a background process that runs continuously—just lik
 
 ## **How It Works**
 1. **Onboard Daemon** → Define AI roles (e.g., project manager, knowledge assistant).
+
 2. **Chat with Daemon** → Ask for help, automate tasks, or retrieve knowledge.
+
 3. **Get Results** → Daemon executes **securely, efficiently, and transparently**.
 
 🔹 **Example Use Cases:**
-✅ **Project Management** → "Daemon, plan my Q3 roadmap with these constraints."
-✅ **Knowledge Retrieval** → "Summarize our last 5 customer support chats."
-✅ **Task Automation** → "Automate this 20-step process—resume if it fails at step 12."
+**Project Management** → "Daemon, plan my Q3 roadmap with these constraints."
+
+**Knowledge Retrieval** → "Summarize our last 5 customer support chats."
+
+**Task Automation** → "Automate this 20-step process—resume if it fails at step 12."
 
 ---
 
@@ -68,7 +78,7 @@ docker-compose up --build
 - Integrate with **Synapse (Governance Layer)** for enterprise-grade permissions.
 
 ---
-## **🌟 Why Choose Daemon?**
+## **Why Choose Daemon?**
 | **Feature**               | **Daemon** | **Traditional AI Chatbots** |
 |---------------------------|------------|-----------------------------|
 | **Privacy**               | ✅ Local/Private | ❌ Cloud-dependent |
