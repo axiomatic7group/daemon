@@ -1,54 +1,110 @@
-## Daemon by [Ax Lab](https://axiomaticlab.com/) 
-
-<p align="center">
-  <img src="https://shields.io" alt="Daemon">
-  <img src="https://shields.io" alt="License: MIT">
-  <img src="https://shields.io" alt="Python">
-  <img src="https://shields.io" alt="Django">
-</p>
-
-
-## Secure Intelligence Infrastructure for the Modern Enterprise
-
-Daemon is a privacy-first reasoning engine designed for executives and professionals that refuse to trade their private information for innovation. Built on the principle of data sovereignty, Daemon allows your innovative executives to harness advanced AI capabilities, from automated strategy summarization to complex task reasoning, entirely within your own secure infrastructure.
-
-------------------------------
+# **🔥 Daemon: Your Private AI Chat Companion**
+### *Part of the **Axiom Suite** – The Governance, Semantic, Action & Reasoning Layer for Digital Labor*
 
 ![Daemon is a privacy-first reasoning engine designed for executives and professionals that refuse to trade their private information for innovation](https://github.com/axiomatic7group/daemon/raw/main/assets/daemon_img_hero.png)
 
-------------------------------
-# The Value Proposition for Innovative Executives
+---
 
-### Uncompromising Data Sovereignty
-Eliminate the "Third-Party Risk" inherent in cloud AI. Daemon processes your most sensitive private information, financials, legal files, and strategic plans, locally on your own device. Your proprietary information never leaves your control, designed for compliance with GDPR, HIPAA, and internal security protocols.
+## **🚀 What is Daemon?**
+**Daemon** is a **secure, private AI chat assistant** designed to act as your **"second brain"**—organizing, reasoning, and executing tasks while maintaining **organizational memory** and **strict privacy controls**. Built as part of the **Axiom Suite**, Daemon integrates seamlessly with your workflows, ensuring AI interactions are **auditable, secure, and efficient**.
 
-### Persistent Organizational Memory
-AI is only as valuable as the context it retains. Daemon captures and organizes internal knowledge into structured Private Memories.
-
-* Executive Summaries: Transform hours of meeting transcripts or complex threads into actionable briefings.
-* Background Intel: The system maintains "private scratchpads" for ongoing projects, providing your team with a persistent, intelligent partner that understands your business context.
-
-### Predictable Efficiency & Cost Control
-Avoid the unpredictable "tax" of per-token cloud pricing. By prioritizing local models for high-volume tasks and using high-cost frontier APIs only when necessary, Daemon provides a predictable cost structure for scaling AI across your organization.
-
-------------------------------
-## 🚀 Core Capabilities for Innovative Leaders
-
-* Hybrid Reasoning Architecture: Automatically routes sensitive data to secure local models while utilizing external intelligence for non-sensitive, general tasks.
-* Legacy Data Connectivity: Seamlessly bridge the gap between AI and your existing assets, Excel files, PDFs, and local databases, without uploading them to the public web.
-* Role-Based Governance: Control exactly who (and which AI) can access specific datasets with enterprise-grade identity and access management.
-
-------------------------------
-## A Foundation for Innovation
-Daemon is the first pillar of the Axiom ecosystem. It provides the Reasoning Layer required to move your company from "experimenting with AI" to "operating with AI." It is a tool for leaders who want to move fast without breaking their security perimeter.
-
-"The enterprise perimeter has moved from the network's edge to the AI agent's actions." — Daemon ensures those actions are governed, private, and [aligned with your business goals](https://axiomaticlab.com/).
-
-------------------------------
-
-Secure your future. Own your intelligence. Deploy Daemon.
+🔹 **Why "Daemon"?**
+In computing, a daemon is a background process that runs continuously—just like your AI assistant, always ready to help, **without overstepping bounds**.
 
 ---
+
+## **✨ Key Features**
+
+### **🔒 Private & Secure**
+- **No Data Leaks**: All conversations stay **local or private**—no external API calls unless explicitly allowed.
+- **User-Level Attribution**: Every action is tied to a user’s security clearance (ABAC), preventing **"Shadow AI"** risks.
+- **Fail-to-Human Escalation**: If Daemon hits an edge case, it **hands off to a human**—ensuring **0% hallucinations in critical paths**.
+
+### **🧠 Smart Reasoning**
+- **Context-Aware**: Remembers past interactions (organizational memory) to provide **consistent, intelligent responses**.
+- **Task Automation**: Helps break down complex tasks into **actionable steps** (e.g., project planning, knowledge retrieval).
+- **Personality Customization**: Adjust AI behavior (e.g., **planning mode** for project management, **summarization mode** for notes).
+
+### **🔄 Seamless Integration**
+- Works alongside **Synapse (Governance Layer)** and **Cadence (Action Layer)** for **end-to-end automation**.
+- **Modular & Extensible**: Add new tools (e.g., file search, API calls) without rewriting logic.
+
+### **Audit & Transparency**
+- **Full Logs**: Every chat, action, and decision is **tracked and timestamped**.
+- **No Black Boxes**: You see **exactly how Daemon works**—no hidden prompts or unpredictable behavior.
+
+---
+
+## **How It Works**
+1. **Onboard Daemon** → Define AI roles (e.g., project manager, knowledge assistant).
+2. **Chat with Daemon** → Ask for help, automate tasks, or retrieve knowledge.
+3. **Get Results** → Daemon executes **securely, efficiently, and transparently**.
+
+🔹 **Example Use Cases:**
+✅ **Project Management** → "Daemon, plan my Q3 roadmap with these constraints."
+✅ **Knowledge Retrieval** → "Summarize our last 5 customer support chats."
+✅ **Task Automation** → "Automate this 20-step process—resume if it fails at step 12."
+
+---
+
+## **Quick Start**
+### **Installation**
+```bash
+git clone https://github.com/axiomatic7group/daemon.git
+cd daemon
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+```
+
+### **Run with Docker (Recommended)**
+```bash
+docker-compose up --build
+```
+
+### **Configure Daemon**
+- Set up **personality profiles** (e.g., `planning`, `summarization`).
+- Define **security policies** (ABAC rules).
+- Integrate with **Synapse (Governance Layer)** for enterprise-grade permissions.
+
+---
+## **🌟 Why Choose Daemon?**
+| **Feature**               | **Daemon** | **Traditional AI Chatbots** |
+|---------------------------|------------|-----------------------------|
+| **Privacy**               | ✅ Local/Private | ❌ Cloud-dependent |
+| **Security**              | ✅ User-Level Attribution | ❌ "God Mode" risks |
+| **Auditability**          | ✅ Full Logs | ❌ Black Boxes |
+| **Fail-to-Human**         | ✅ Zero Hallucinations | ❌ Unpredictable |
+| **Task Automation**       | ✅ Yes | ❌ Limited |
+
+---
+## **Explore the Axiom Suite**
+Daemon is **one piece of the Axiom Suite**—a **complete framework for secure AI automation**:
+🔹 **[Synapse](https://github.com/axiomatic7group/synapse)** → **Governance Layer** (User-Security Attribution)
+🔹 **[Cadence](https://github.com/axiomatic7group/cadence)** → **Action Layer** (Task Orchestration)
+🔹 **[Daemon](https://github.com/axiomatic7group/daemon)** → **Reasoning Layer** (Private AI Chat)
+
+---
+## **Join the Movement**
+Daemon is **open-source**, but Axiom Suite is **proprietary**—designed for **enterprises** who need **scalable, secure AI automation**.
+
+🔹 **Want more?**
+**[Try Axiom Suite](https://axiomaticlab.com)**
+**[Watch Our YouTube](https://www.youtube.com/channel/UCltGi4Su305oln_ldu-b94Q)**
+**[Follow Us on LinkedIn](https://www.linkedin.com/company/axiomatic-lab/)**
+
+---
+## **License**
+**Daemon** is licensed under **MIT** (Open Source).
+**Axiom Suite** is proprietary; **contact us for enterprise solutions.**
+
+---
+**Ready to make AI work for you?**
+**[Download Daemon](https://github.com/axiomatic7group/daemon)**
+**[Explore Axiom Suite](https://axiomaticlab.com)**
+
+------------------------------
+
 # Axiomatic Lab
 
 Mission: To deliver "Obvious" automation through secure, task-based AI onboarding.
