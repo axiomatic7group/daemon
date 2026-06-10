@@ -76,6 +76,8 @@ class model_personality(models.Model):
     personality_name = models.CharField(max_length=75)
     personality_description = models.CharField(max_length=75000)
     personality_type = models.CharField(max_length=100, choices=personality_type_list, default='behavior')
+    personality_temp = models.DecimalField(default=0.75, max_digits=2, decimal_places=2)
+    personality_top_p = models.DecimalField(default=0.9, max_digits=2, decimal_places=2)
 
 
 class message_attachement(models.Model):

@@ -19,18 +19,18 @@ from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain_core.output_parsers import StrOutputParser
-from langchain_community.document_loaders import PyPDFLoader
-from langchain_community.document_loaders import TextLoader
+from langchain_community.document_loaders import PyPDFLoader, PythonLoader, TextLoader
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver import Firefox
 from selenium.webdriver.firefox.options import Options
 from quicksand.quicksand import quicksand
 
-from typing import List
+from typing import List, Literal
 from pydantic import BaseModel, Field
 from tempfile import NamedTemporaryFile
 
+UPLOAD_FOLDER = "/home/daniel/Desktop/test/"
 
 fast_personality = "You are an AI assitant being obeserved for your efficiency and performance. Along with these instructions you will be provided context to answer the questions you are asked." \
 "Use predominately the context material to generate your answer, if not enough information is provided, specify that in your respons." \
@@ -56,6 +56,13 @@ summary_personality = "You are an AI Agent being observed for performance and ef
     "Remeber, you are being observed for your performance, be sure to follow instructions well and keep your repsonses brief and to the point." \
     "Make sure to think through step-by-step before giving your answer, include the reference url to where you are getting each piece of information from as much as possible, and remember you are being observed for efficiency and accuracy."
 
+def reduce_tokens(input_text):
+    if isinstance(input_text, str):
+        output_text = input_text.replace('e', '').replace('a', '').replace(' an ', '').replace(' the ', '')
+        return output_text
+    else:
+        return input_text
+
 def get_local_search_results(search_query, links_count=4):
     url = 'https://html.duckduckgo.com/html/'
     user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
@@ -63,7 +70,6 @@ def get_local_search_results(search_query, links_count=4):
     headers = {'User-Agent': user_agent, 'Referer': 'https://duckduckgo.com/',}
     temp_html = requests.post(url, headers=headers, data=params)
     links_output = []
-    print(temp_html)
     if  temp_html.status_code == 200:
         soup = BeautifulSoup(temp_html.text, 'html.parser')
         links = soup.find_all('a', class_='result__a')
@@ -110,38 +116,59 @@ def get_local_search_results(search_query, links_count=4):
         if content == []:
             content = soup
         content = str(content).replace('</p>', '').replace('<p>', '').replace('</a>', '')
-        content = str(content).replace('e', '').replace('a', '').replace(' an ', '').replace(' the ', '')
+        content = reduce_tokens(str(content))
         search_output['source '+str(i)] = {'url':link, 'context':content[:1500]}
 
     return search_output
 
 def check_files(request):
-    if 'filename' not in request.FILES:
+    if os.path.isfile(str(request)):
+        with open((request), "r", encoding="utf-8") as file:
+            file_to_check = str(request)
+            file_content = file.read()
+    
+    elif 'filename' not in request.FILES:
         return {'message': 'no file', 'state': '0'}
+    else:
+        file_to_check = request.FILES['filename']
+        file_content = file_to_check.read()
     
-    file_to_check = request.FILES['filename']
-    file_content = file_to_check.read()
+    try:
+        qs = quicksand(file_content)
+        qs.process()
+    except:
+        qs = quicksand(file_to_check)
+        qs.process()
     
-    qs = quicksand(file_content)
-    qs.process()
 
     output = {}
     if not qs.results.get('exploits_found'):
-        file_type = str(file_to_check.name).split(".")[-1].lower()
+        try:
+            file_type = str(file_to_check.name).split(".")[-1].lower()
+        except:
+            file_type = str(file_to_check).split(".")[-1].lower()
 
         with NamedTemporaryFile(suffix=f".{file_type}") as tmp:
-            tmp.write(file_content)
-            tmp.flush()
+            try:
+                tmp.write(file_content)
+                tmp.flush()
+                temp_name = tmp.name
+            except:
+                temp_name = str(file_to_check)
             
-            if file_type == "txt":
-                loader = TextLoader(tmp.name, encoding='utf-8')
-                docs = loader.load()
+            if file_type == "txt" or file_type == "md":
+                loader = TextLoader(temp_name, encoding='utf-8')
+                
+            elif file_type == "py":
+                loader = PythonLoader(temp_name)
+            
             elif file_type == "pdf":
-                loader = PyPDFLoader(tmp.name)
-                docs = loader.load()
+                loader = PyPDFLoader(temp_name)
+
             else:
                 return {'message': 'Unsupported type', 'state': '0'}
             
+            docs = loader.load()
             full_text = "\n\n".join([doc.page_content for doc in docs])
             output["context"] = full_text
             output["state"] = "1"
@@ -163,29 +190,58 @@ def form_to_json_schema(form):
 
 def check_authentication(check_request):
     if not check_request.user.is_authenticated:
-        user_auth_form = AuthenticationForm(check_request.GET or None)
-        context = {'user_auth_form':user_auth_form}
-        return redirect('/admin')
+        return redirect("/login")
+    elif not check_request.user.is_staff:
+        return redirect("/login")
 
-def send_message_to_model(promt_message, user_request,
-                          chat_summary="",
-                          chat_tool="fast",
-                          personality="",
-                          model_base="http://127.0.0.1:8080",
-                          model_name="local-model", 
-                          model_api_key="dummy_key",  
-                          chat_history_list=None,
-                          run_tempereature=0.75,
-                          top_p=0.9, 
-                          run_maxtokens=500):
+def send_task_to_model(promt_message, user_request, chat_summary="",chat_tool="fast",
+                        personality="", model_base="http://127.0.0.1:8080", model_name="local-model", 
+                        model_api_key="dummy_key", run_tempereature=0.75, top_p=0.9,):
     
-    run_model = ChatOpenAI(
-        base_url=model_base,
-        api_key=model_api_key,
-        model=model_name,
-        temperature=run_tempereature,
-        top_p=top_p,)
-        #max_tokens=run_maxtokens)
+    run_model_start = ChatOpenAI( base_url=model_base, api_key=model_api_key,
+        model=model_name, temperature=run_tempereature, top_p=top_p,)
+    
+    class StructuredResponse(BaseModel):
+        status: Literal["1", "0"] = Field(description="Return '1' if successful/approved, or '0' if failed/rejected.")
+        response: str = Field(description="The primary response to the user")
+    
+    run_model = run_model_start.with_structured_output(StructuredResponse)
+    
+    if chat_tool == "fast":
+        system_context = {'system': {'priority':reduce_tokens(str(fast_personality)), 'secondary':reduce_tokens(personality),}, 'chat_summary':reduce_tokens(chat_summary),}
+    elif chat_tool == "thinking":
+        class ReasoningQuestions(BaseModel):
+            questions: List[str] = Field(description="A list of 2-5 trageted reasoning questions to help answer the user prompt.")
+        
+        temp_prompt = ( "You are an AI assitant being obeserved for your efficiency and performance, analyze the user prompt and generate 2 to 5 deep reasoning questions that break down the complexity of the user prompt." )
+        run_model_w_struct = run_model.with_structured_output(ReasoningQuestions)
+        questions_list = run_model_w_struct.invoke(f"{temp_prompt}\\n\\n User Prompt:{promt_message}")
+        questions_dict = []
+        for i, q in enumerate(questions_list.questions):
+            questions_dict.append({'question':q})
+        
+        temp_batch_promt = ChatPromptTemplate.from_template("{question}")
+        temp_chain = temp_batch_promt | run_model_start | StrOutputParser()
+        question_results = temp_chain.batch(questions_dict, config={"max_concurrency":5})
+
+        system_context = {'system': {'priority':reduce_tokens(str(reasoning_personality)), 'secondary':reduce_tokens(personality)}, 'reasoning':question_results, 'chat_summary':reduce_tokens(chat_summary),}
+    elif chat_tool == "websearch":
+        system_context = {'system': {'priority':reduce_tokens(str(fast_personality)), 'secondary':reduce_tokens(personality)}, 'search':get_local_search_results(promt_message, 4), 'chat_summary':reduce_tokens(chat_summary),}
+    elif chat_tool == "local_files":
+        system_context = {'system': {'priority':reduce_tokens(str(reasoning_personality)), 'secondary':reduce_tokens(personality)}, 'local files':check_files(user_request), 'chat_summary':reduce_tokens(chat_summary),}
+    
+    user_prompt = ChatPromptTemplate.from_messages([("human", "{system_context}\n\nUser Request: {promt_message}"),])
+    
+    chain = user_prompt | run_model
+    response = chain.invoke({"promt_message": promt_message, "system_context": system_context})
+    return response
+
+
+def send_message_to_model(promt_message, user_request, chat_summary="", chat_tool="fast", personality="",
+                        model_base="http://127.0.0.1:8080", model_name="local-model", model_api_key="dummy_key",  
+                        chat_history_list=None, run_tempereature=0.75, top_p=0.9, run_maxtokens=500):
+    
+    run_model = ChatOpenAI( base_url=model_base, api_key=model_api_key, model=model_name, temperature=run_tempereature, top_p=top_p,)
         
     if isinstance(chat_history_list, pd.DataFrame):
         chat_history = []
@@ -214,13 +270,15 @@ def send_message_to_model(promt_message, user_request,
                         continue
 
                 if role == "user":
-                    chat_history.append(HumanMessage(content=content))
+                    #chat_history.append(HumanMessage(content=content))
+                    chat_history.append(HumanMessage(content=reduce_tokens(content)))
                 elif role == "model":
-                    chat_history.append(AIMessage(content=content))
+                    #chat_history.append(AIMessage(content=content))
+                    chat_history.append(AIMessage(content=reduce_tokens(content)))
     
     if chat_tool == "fast":
-        print('fast')
-        system_context = {'system': {'priority':fast_personality, 'secondary':personality,}, 'chat_summary':chat_summary,}
+
+        system_context = {'system': {'priority':reduce_tokens(fast_personality), 'secondary':reduce_tokens(personality),}, 'chat_summary':reduce_tokens(chat_summary),}
     elif chat_tool == "thinking":
         class ReasoningQuestions(BaseModel):
             questions: List[str] = Field(description="A list of 2-5 trageted reasoning questions to help answer the user prompt.")
@@ -236,18 +294,13 @@ def send_message_to_model(promt_message, user_request,
         temp_batch_promt = ChatPromptTemplate.from_template("{question}")
         temp_chain = temp_batch_promt | run_model | StrOutputParser()
         question_results = temp_chain.batch(questions_dict, config={"max_concurrency":5})
-
-        print('thinking')
-        system_context = {'system': {'priority':reasoning_personality, 'secondary':personality}, 'reasoing':question_results, 'chat_summary':chat_summary,}
+        system_context = {'system': {'priority':reduce_tokens(reasoning_personality), 'secondary':reduce_tokens(personality)}, 'reasoning':question_results, 'chat_summary':reduce_tokens(chat_summary),}
     elif chat_tool == "websearch":
-        print('websearch')
-        system_context = {'system': {'priority':fast_personality, 'secondary':personality}, 'search':get_local_search_results(promt_message, 4), 'chat_summary':chat_summary,}
+        system_context = {'system': {'priority':reduce_tokens(fast_personality), 'secondary':reduce_tokens(personality)}, 'search':get_local_search_results(promt_message, 4), 'chat_summary':reduce_tokens(chat_summary),}
     elif chat_tool == "local":
-        print('local files')
-        system_context = {'system': {'priority':fast_personality, 'secondary':personality}, 'local files':check_files(user_request), 'chat_summary':chat_summary,}
+        system_context = {'system': {'priority':reduce_tokens(fast_personality), 'secondary':reduce_tokens(personality)}, 'local files':check_files(user_request), 'chat_summary':reduce_tokens(chat_summary),}
 
-    #user_prompt = ChatPromptTemplate.from_messages([("system", "{system_context}"), MessagesPlaceholder(variable_name="chat_history"), ("human", "{promt_message}"),])
-    #user_prompt = ChatPromptTemplate.from_messages([MessagesPlaceholder(variable_name="chat_history"), ("human", "Instructions: {system_context}\n\nUser Request: {promt_message}"),])
+
     user_prompt = ChatPromptTemplate.from_messages([
     MessagesPlaceholder(variable_name="chat_history"), 
     ("human", "{system_context}\n\nUser Request: {promt_message}"),])
@@ -259,6 +312,7 @@ def send_message_to_model(promt_message, user_request,
 def summarize_chat(model_chat_id):
 
     if model_chats.objects.filter(id=model_chat_id).exists:
+        print('yes')
         model_chats_to_sum = pd.DataFrame(model_chats.objects.filter(id=model_chat_id).values())
         chat_model_connection = pd.DataFrame(model_connection.objects.filter(id=model_chats_to_sum['model_connection_name_id'].iloc[0]).values())
         chat_messages_to_sum = pd.DataFrame(chat_messages.objects.filter(message_model_chats_id=model_chat_id).values())
@@ -273,12 +327,11 @@ def summarize_chat(model_chat_id):
             checked_chat_history = chat_messages_to_sum[~chat_messages_to_sum['id'].isin(check_chat_history['chat_message_id'])]
 
             chat_summary = pd.DataFrame(model_chats_summary.objects.filter(model_chat_id=model_chat_id).values())
-        
         run_model = ChatOpenAI(
             base_url=chat_model_connection['model_base'].iloc[0],
             api_key=chat_model_connection['model_api_key'].iloc[0],
             model=chat_model_connection['model_name'].iloc[0],
-            temperature=0.75,)
+            temperature=0.1, top_p=0.1)
         
         chat_history_list = checked_chat_history
         if isinstance(chat_history_list, pd.DataFrame):
@@ -286,14 +339,21 @@ def summarize_chat(model_chat_id):
             chat_history_list.sort_values('date_created')
             chat_history_list = chat_history_list.reset_index()
             for i_message, e_message in chat_history_list.iterrows():
-                if e_message['chat_sender'] == "user":
-                    chat_history.append(HumanMessage(content= e_message['chat_message']))
-                elif e_message['chat_sender'] == "model":
-                    chat_history.append(AIMessage(content=e_message['chat_message']))
+                role = e_message['chat_sender']
+                content = e_message['chat_message']
+
+                if chat_history:
+                    last_msg = chat_history[-1]
+                    if (role == "user" and isinstance(last_msg, HumanMessage)) or (role == "model" and isinstance(last_msg, AIMessage)):
+                        last_msg.content += f"\n\n{content}"
+
+                if role == "user":
+                    chat_history.append(HumanMessage(content=content))
+                elif role == "model":
+                    chat_history.append(AIMessage(content=content))
         else:
             chat_history = []
-        
-        
+                
         class ReasoningQuestions(BaseModel):
             general_summary: str = Field(description="Summary of relevant information found in chat history.")
             private_summary: str = Field(description="All private information from chat history.")
@@ -317,16 +377,16 @@ def summarize_chat(model_chat_id):
             new_private_summary.save()
 
         except:
-            model_chats_summary.objects.filter(model_chat= model_chats.objects.get(id=model_chat_id)).update(chat_summary=summaries_list.general_summary)
-            chat_message_private_summary.objects.filter(model_chat= model_chats.objects.get(id=model_chat_id)).update(chat_private_summary=summaries_list.private_summary)
-        
+            temp_mod_sum = model_chats_summary.objects.filter(model_chat= model_chats.objects.get(id=model_chat_id)).update(chat_summary=summaries_list.general_summary)
+            temp_mod_sum_priv =chat_message_private_summary.objects.filter(model_chat= model_chats.objects.get(id=model_chat_id)).update(chat_private_summary=summaries_list.private_summary)
+ 
         checked_chat_history_check = pd.DataFrame()
         checked_chat_history_check['chat_message'] = [chat_messages.objects.get(id=x) for x in checked_chat_history['id']]
         checked_chat_history_check['date_summairzed'] = timezone.now()
         checked_chat_history_check['chat_summarized'] = True
 
-        #instances = [chat_message_summarized(**row) for row in checked_chat_history_check.to_dict('records')]
-        #chat_message_summarized.objects.bulk_create(instances)
+        instances = [chat_message_summarized(**row) for row in checked_chat_history_check.to_dict('records')]
+        chat_message_summarized.objects.bulk_create(instances)
 
 
 class create_model_connection(View):
@@ -682,7 +742,6 @@ class view_edit_summary(View):
         context['summary_form'] = chat_summary_form
         return render(request, 'bots/summary_view.html', context)
 
-
 class view_edit_private_summary(View):
     def get(self, request, models_chat_id):
         if check_authentication(request) != None:
@@ -806,6 +865,8 @@ class manage_model_messages(View):
                     new_chat_messages.save()
                 
                 chat_history = []
+
+#### check if there is chat hitory only embed in chat history not in summary, feed summary as context
 
                 if chat_messages.objects.filter(message_model_chats_id=model_chats_id).exists():
                     chat_history = pd.DataFrame(chat_messages.objects.filter(message_model_chats_id=model_chats_id).values())
@@ -958,3 +1019,66 @@ class manage_model_messages(View):
                     'format':{'Chat Message Form': {'chat_message':'message to send to model',}}}
                     return JsonResponse(data)
     
+
+
+
+'''
+        if model_chats.objects.filter(chat_user=request.user).exists():
+            model_chats_list = pd.DataFrame(model_chats.objects.filter(chat_user=request.user).values())
+            if model_chats_id in model_chats_list['id'].astype(str).to_list():
+                model_chats_connection_id = model_chats_list[model_chats_list['id'].astype(str)==model_chats_id]['model_connection_name_id'][:]
+                run_model_connection = model_connection.objects.get(id=model_chats_connection_id)
+                chat_messages_form = create_chat_messages_form(data=request.POST or None)
+                user_message = None
+
+                if chat_messages_form.is_valid():
+                    new_chat_messages = chat_messages_form.save(commit=False)
+                    user_message = new_chat_messages.chat_message
+                    new_chat_messages.created_date = timezone.now()
+                    new_chat_messages.message_model_chats = model_chats.objects.get(id=model_chats_id)
+                    new_chat_messages.chat_sender = 'user'
+                    new_chat_messages.chat_meta = ''
+                    new_chat_messages.save()
+                
+                chat_history = []
+                if chat_messages.objects.filter(message_model_chats_id=model_chats_id).exists():
+                    chat_history = pd.DataFrame(chat_messages.objects.filter(message_model_chats_id=model_chats_id).values())
+                
+#### check response info to handle different messages and add personality
+
+                run_model_reponse = send_message_to_model(user_message, 
+                          model_base=run_model_connection.model_base,
+                          model_name=run_model_connection.model_name, 
+                          model_api_key=run_model_connection.model_api_key,
+                          chat_history_list=chat_history,)
+                
+                model_message_response = chat_messages.objects.create(
+                    date_created = timezone.now(),
+                    message_model_chats = model_chats.objects.get(id=model_chats_id),
+                    chat_sender = 'model',
+                    chat_meta = run_model_reponse.usage_metadata,
+                    chat_message = run_model_reponse,)
+        
+            model_chats_list = pd.DataFrame(model_chats.objects.filter(chat_user=request.user).values())
+            model_connections = pd.DataFrame()
+            for i_model_chat, e_model_chat in enumerate(model_chats_list['model_connection_name_id'].unique()):
+                temp_connection = pd.DataFrame(model_connection.objects.filter(id=e_model_chat).values())
+                model_connections = pd.concat([temp_connection, model_connections], axis=0)
+            model_chats_list = pd.merge(model_chats_list, model_connections, left_on='model_connection_name_id', right_on='id', how='left')
+            context['model_chats_list'] = model_chats_list.to_dict('records')
+        else:
+            messages.success(request, 'user does not have any model chats')
+            return redirect('/daemon/new_model_chat/')
+
+
+
+        if chat_messages.objects.filter(message_model_chats_id=model_chats_id).exists():
+            chat_messages_list = pd.DataFrame(chat_messages.objects.filter(message_model_chats_id=model_chats_id).values())
+            context['chat_messages_list'] = chat_messages_list.to_dict('records')
+        
+        chat_messages_form = create_chat_messages_form(request.GET or None)
+        context['tools'] = {"fast", "thinking", "websearch", "local files"}
+        context['personalities'] = {'agent', 'master'}
+        context['chat_messages_form'] = chat_messages_form
+        context['model_chats_id'] = int(model_chats_id)
+        return render(request, 'bots/manage_model_chats.html', context)'''
