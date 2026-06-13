@@ -35,23 +35,23 @@ In computing, a daemon is a background process that runs continuously—just lik
 
 ## **Technical Features**
 
-### **Private & Secure**
+### Private & Secure
 - **No Data Leaks**: All conversations stay **local or private**—no external API calls unless explicitly allowed.
 
 - **User-Level Attribution**: Every action is tied to a user’s security clearance (ABAC), preventing **"Shadow AI"** risks.
 
 - **Fail-to-Human Escalation**: If Daemon hits an edge case, it **hands off to a human**—ensuring **0% hallucinations in critical paths**.
 
-### **Smart Reasoning**
+### Smart Reasoning
 - **Context-Aware**: Remembers past interactions (organizational memory) to provide **consistent, intelligent responses**.
 - **Task Automation**: Helps break down complex tasks into **actionable steps** (e.g., project planning, knowledge retrieval).
 - **Personality Customization**: Adjust AI behavior (e.g., **planning mode** for project management, **summarization mode** for notes).
 
-### **Seamless Integration**
+### Seamless Integration
 - Works alongside **Synapse (Governance Layer)** and **Cadence (Action Layer)** for **end-to-end automation**.
 - **Modular & Extensible**: Add new tools (e.g., file search, API calls) without rewriting logic.
 
-### **Audit & Transparency**
+### Audit & Transparency
 - **Full Logs**: Every chat, action, and decision is **tracked and timestamped**.
 - **No Black Boxes**: You see **exactly how Daemon works**—no hidden prompts or unpredictable behavior.
 
@@ -69,7 +69,8 @@ In computing, a daemon is a background process that runs continuously—just lik
 ---
 
 ## **Quick Start**
-### **Installation**
+
+### Installation
 ```bash
 git clone https://github.com/axiomatic7group/daemon.git
 cd daemon
@@ -78,12 +79,12 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-### **Run with Docker (Recommended)**
+### Run with Docker (Recommended)
 ```bash
 docker-compose up --build
 ```
 
-### **Configure Daemon**
+### Configure Daemon
 - Set up **personality profiles** (e.g., `planning`, `summarization`).
 - Define **security policies** (ABAC rules).
 - Bonus: Integrate with **Synapse (Governance Layer)** for enterprise-grade permissions.
@@ -142,10 +143,10 @@ Daemon is **open-source**, but Axiom Suite is **proprietary**—designed for **e
 
 Mission: On-boarding AI that eliminates Operational Debt.
 
-### 1. The Challenge: The "Black Box" Risk
+## 1. The Challenge: The "Black Box" Risk
 Modern enterprises struggle with automation that is either too rigid or dangerously opaque. Standard AI implementations often lack granular security controls, creating a "clearance gap" where automated systems have more access than the employees they assist. Furthermore, when complex automated sequences fail, most systems require a total restart, leading to significant operational downtime.
 
-### 2. The Solution: Task-Based AI Onboarding
+## 2. The Solution: Task-Based AI Onboarding
 Axiomatic Lab treats AI agents like professional hires rather than just software. We automate your business by **"onboarding"** your organizations tasks, notes, and AI chats, one at a time, alongside your staff all in one platform. Ensuring every automated action, note, and company information is collected, organized, and maintained to ensure your business operates efficiently and strategically.
 
 **Background Knowledge Agents:** Automated background agents that will continously review all provided data from user workflows, notes, and AI chats, to relevant connected databases to create, maintain, and organize your companies operations. Automatically generating and updating Processes and Procedures, Company Guidelines, Client Notes, and much more.
@@ -158,7 +159,7 @@ Axiomatic Lab treats AI agents like professional hires rather than just software
 
 -**Zero Restart Waste:** There is no need to restart the entire workflow from step 1. You save time, compute costs, and manual effort by fixing only what is broken.
 
-### 3. Business Impact & Value
+## 3. Business Impact & Value
 By choosing Axiomatic Lab, your organization gains:
 
 -**Rapid Strategic Growth:** A sustainable platform that ensures your organization remains efficient and operationally sound as you scale Fast!
@@ -169,7 +170,7 @@ By choosing Axiomatic Lab, your organization gains:
 
 -**Operational Agility:** The ability to modify and "hot-fix" live automations without process disruption.
 
-### 4. Next Steps
+## 4. Next Steps
 We recommend a Phase 1 Pilot to identify your **"obvious" automation wins.**
 
 **Discovery Call:** Review your most repetitive, high-margin tasks.
