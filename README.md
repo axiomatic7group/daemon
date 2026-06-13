@@ -7,7 +7,7 @@
 ![Django](https://img.shields.io/badge/Django-4.2%2B-green)
 
 
-![Daemon is a privacy-first reasoning engine designed for executives and professionals that refuse to trade their private information for innovation](https://github.com/axiomatic7group/daemon/blob/main/assets/deamon_img_doodle.png)
+![Daemon is a privacy-first reasoning engine designed for executives and professionals that refuse to trade their private information for innovation](https://github.com/axiomatic7group/daemon/raw/main/assets/deamon_img_doodle.png)
 
 ---
 
