@@ -21,10 +21,15 @@ In computing, a daemon is a background process that runs continuously—just lik
 ## Key Features:
 
 - **Multi-modal**: Use any model across any chat, change the model you use with every message you send;
+  
 - **Local-first**: Natively supports locally deployed AI models for privacy and data protection
+
 - **Chat Personalities**: Create personalities for your agents with custom prompts, temperature and top_p settings to control your desired outputs
+
 - **Background "Second-Brain"**: Organize all your chats, notes, brainstorms, and plans with backgorund agents that organize, manage, and maintain your thoughts and ideas in one place
+
 - **Summaries and Private Information**: Automatically summarize chat history to minimize token context costs and to separate private information when using cloud-hosted models
+
 - **Tools**: search the web, bring in local files, and more 
 
 
@@ -32,7 +37,9 @@ In computing, a daemon is a background process that runs continuously—just lik
 
 ### **Private & Secure**
 - **No Data Leaks**: All conversations stay **local or private**—no external API calls unless explicitly allowed.
+
 - **User-Level Attribution**: Every action is tied to a user’s security clearance (ABAC), preventing **"Shadow AI"** risks.
+
 - **Fail-to-Human Escalation**: If Daemon hits an edge case, it **hands off to a human**—ensuring **0% hallucinations in critical paths**.
 
 ### **Smart Reasoning**
@@ -83,6 +90,7 @@ docker-compose up --build
 
 ---
 ## **Why Choose Daemon?**
+
 | **Feature**               | **Daemon** | **Traditional AI Chatbots** |
 |---------------------------|------------|-----------------------------|
 | **Privacy**               | ✅ Local/Private | ❌ Cloud-dependent |
@@ -109,8 +117,11 @@ Daemon is **one piece of the Axiom Suite**—a **complete framework for secure A
 Daemon is **open-source**, but Axiom Suite is **proprietary**—designed for **enterprises** who need **scalable, secure AI automation**.
 
 🔹 **Want more?**
+
 **[Try Axiom Suite](https://axiomaticlab.com)**
+
 **[Watch Our YouTube](https://www.youtube.com/channel/UCltGi4Su305oln_ldu-b94Q)**
+
 **[Follow Us on LinkedIn](https://www.linkedin.com/company/axiomatic-lab/)**
 
 ---
@@ -120,7 +131,9 @@ Daemon is **open-source**, but Axiom Suite is **proprietary**—designed for **e
 
 ---
 **Ready to make AI work for you?**
+
 **[Download Daemon](https://github.com/axiomatic7group/daemon)**
+
 **[Explore Axiom Suite](https://axiomaticlab.com)**
 
 ------------------------------
